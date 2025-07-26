@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Results - Album Vibe Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Floating particles for background animation -->
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    
+    <div class="container">
+        <h1>🎯 Analysis Results</h1>
+        
+        <div class="result-card">
+            <h3>🎵 Predicted Rating</h3>
+            <div class="rating">{{ rating }}/5</div>
+            <div class="sentiment {{ sentiment|lower }}">{{ sentiment }}</div>
+        </div>
+        
+        <div class="result-card">
+            <h3>📝 Your Review</h3>
+            <p class="review-text">{{ review }}</p>
+        </div>
+        
+        <a href="/" class="button">🔄 Analyze Another Album</a>
+    </div>
+</body>
+</html>

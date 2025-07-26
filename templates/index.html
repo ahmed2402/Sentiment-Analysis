@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Album Vibe Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Floating particles for background animation -->
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    
+    <div class="container">
+        <h1>🎵 Album Vibe Analyzer</h1>
+        <p>Discover the emotional journey of music through AI-powered sentiment analysis</p>
+        
+        <form action="/analyze" method="POST">
+            <textarea name="review" placeholder="Share your thoughts about the album... What emotions did it evoke? How would you describe the overall vibe? ✨" required></textarea>
+            <button type="submit">🚀 Analyze Vibe</button>
+        </form>
+    </div>
+</body>
+</html>
