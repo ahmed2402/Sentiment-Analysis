@@ -27,8 +27,8 @@ def validate_input(text):
     Returns: (is_valid, error_message)
     """
     # Check if input is empty or too short
-    if not text or len(text.strip()) < 10:
-        return False, "Please provide a more detailed review (at least 10 characters)."
+    # if not text or len(text.strip()) < 10:
+    #     return False, "Please provide a more detailed review (at least 10 characters)."
     
     # Check if input is too long
     if len(text) > 1000:
@@ -79,11 +79,13 @@ def validate_input(text):
     return True, ""
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'  # Required for flash messages
+
 
 # Load models
-model = joblib.load('models/model.pkl')
+model = joblib.load('models/model_ridge.pkl')
 tfidf = joblib.load('models/tfidf.pkl')
+# w2v_model = joblib.load('models/model_w2v.pkl')
+# w2v = joblib.load('models/w2v.pkl')
 
 @app.route('/')
 def home():
@@ -107,6 +109,9 @@ def analyze():
         clean_text = preprocess_text(review)
         X = tfidf.transform([clean_text])
         rating = round(model.predict(X)[0], 1)
+        # tokens = clean_text.split()
+        # review_vector = get_review_vector(tokens, w2v, w2v.vector_size).reshape(1, -1)
+        # rating = round(w2v_model.predict(review_vector)[0], 1)
         if rating > 5.0:
             rating = 5.0
         

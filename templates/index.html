@@ -51,14 +51,14 @@
             messageDiv.className = 'alert';
             
             // Basic client-side validation
-            if (text.length < 10) {
-                e.preventDefault();
-                messageDiv.textContent = 'Please provide a more detailed review (at least 10 characters).';
-                messageDiv.className = 'alert alert-error';
-                messageDiv.style.display = 'block';
-                textarea.focus(); // Focus back on textarea for correction
-                return false;
-            }
+            // if (text.length < 10) {
+            //     e.preventDefault();
+            //     messageDiv.textContent = 'Please provide a more detailed review (at least 10 characters).';
+            //     messageDiv.className = 'alert alert-error';
+            //     messageDiv.style.display = 'block';
+            //     textarea.focus(); // Focus back on textarea for correction
+            //     return false;
+            // }
             
             if (text.length > 1000) {
                 e.preventDefault();
