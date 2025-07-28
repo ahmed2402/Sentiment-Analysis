@@ -20,10 +20,106 @@
         <h1>🎵 Album Vibe Analyzer</h1>
         <p>Discover the emotional journey of music through AI-powered sentiment analysis</p>
         
-        <form action="/analyze" method="POST">
-            <textarea name="review" placeholder="Share your thoughts about the album... What emotions did it evoke? How would you describe the overall vibe? ✨" required></textarea>
-            <button type="submit">🚀 Analyze Vibe</button>
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'error' if category == 'error' else 'success' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form action="/analyze" method="POST" id="reviewForm">
+            <textarea name="review" id="reviewText" placeholder="Share your thoughts about the album... What emotions did it evoke? How would you describe the overall vibe? ✨" required></textarea>
+            <div id="validationMessage" class="alert" style="display: none;"></div>
+
+            <button type="submit" id="submitBtn">🚀 Analyze Vibe</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            const textarea = document.getElementById('reviewText');
+            const messageDiv = document.getElementById('validationMessage');
+            const submitBtn = document.getElementById('submitBtn');
+            const text = textarea.value.trim();
+            
+            // Clear previous messages
+            messageDiv.style.display = 'none';
+            messageDiv.className = 'alert';
+            
+            // Basic client-side validation
+            if (text.length < 10) {
+                e.preventDefault();
+                messageDiv.textContent = 'Please provide a more detailed review (at least 10 characters).';
+                messageDiv.className = 'alert alert-error';
+                messageDiv.style.display = 'block';
+                textarea.focus(); // Focus back on textarea for correction
+                return false;
+            }
+            
+            if (text.length > 1000) {
+                e.preventDefault();
+                messageDiv.textContent = 'Review is too long. Please keep it under 1000 characters.';
+                messageDiv.className = 'alert alert-error';
+                messageDiv.style.display = 'block';
+                textarea.focus(); // Focus back on textarea for correction
+                return false;
+            }
+            
+            // Check for repetitive characters
+            if (/(.)\1{4,}/.test(text)) {
+                e.preventDefault();
+                messageDiv.textContent = 'Please provide meaningful text instead of repetitive characters.';
+                messageDiv.className = 'alert alert-error';
+                messageDiv.style.display = 'block';
+                textarea.focus(); // Focus back on textarea for correction
+                return false;
+            }
+            
+            // Show loading state
+            submitBtn.innerHTML = '<span class="loading"></span> Analyzing...';
+            submitBtn.disabled = true;
+        });
+        
+        // Handle Enter key press in textarea
+        document.getElementById('reviewText').addEventListener('keydown', function(e) {
+            // Check if Enter is pressed without Shift (Shift+Enter allows new lines)
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); // Prevent default Enter behavior (new line)
+                
+                const submitBtn = document.getElementById('submitBtn');
+                
+                // Focus the submit button and trigger click
+                submitBtn.focus();
+                submitBtn.click();
+            }
+        });
+        
+        // Real-time character count
+        document.getElementById('reviewText').addEventListener('input', function() {
+            const text = this.value;
+            const messageDiv = document.getElementById('validationMessage');
+            
+            if (text.length > 900) {
+                messageDiv.textContent = `Character count: ${text.length}/1000`;
+                messageDiv.className = 'alert alert-error';
+                messageDiv.style.display = 'block';
+            } else if (text.length > 800) {
+                messageDiv.textContent = `Character count: ${text.length}/1000`;
+                messageDiv.className = 'alert alert-success';
+                messageDiv.style.display = 'block';
+            } else {
+                messageDiv.style.display = 'none';
+            }
+        });
+        
+        // Auto-focus on textarea when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('reviewText').focus();
+        });
+    </script>
 </body>
 </html>
